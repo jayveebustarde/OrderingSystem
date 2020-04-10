@@ -5,7 +5,7 @@ namespace Ordering.DataContext.Context
 {
     public class OrderingContext : DbContext
     {
-        public OrderingContext() : base("name=OrderingContext")
+        public OrderingContext() : base("name=OrderingDataContext")
         {
         }
 

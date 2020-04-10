@@ -28,7 +28,8 @@
                 );
 
             context.Users.AddOrUpdate(x => x.Id,
-                new User() { Id = 1, Email = "user@example.com", FirstName = "Test", LastName = "User", Password = "", Role = "" }
+                new User() { Id = 1, Email = "user@example.com", FirstName = "Test", LastName = "User", Password = "", Role = "" },
+                new User() { Id = 2, Email = "user2@example.com", FirstName = "Test", LastName = "User", Password = "", Role = ""}
                 );
         }
     }

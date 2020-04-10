@@ -5,9 +5,9 @@
         .module('app')
         .controller('appController', appController);
 
-    appController.$inject = ['$scope', '$http'];
+    appController.$inject = ['$scope', '$http', '$location'];
 
-    function appController($scope, $http) {
+    function appController($scope, $http, $location) {
         $scope.isLoggedin = false;
         $scope.products = [];
         $scope.user = {};
@@ -15,6 +15,7 @@
         $scope.isOrdering = false;
         $scope.display = 'home';
         $scope.pred = 'home';
+        $scope.baseurl = getBaseUrl();
         
 
         $scope.getProduct = getProduct;
@@ -33,7 +34,7 @@
         function getProducts() {
             $http({
                 method: 'get',
-                url: 'api/product'
+                url: $scope.baseurl + 'api/product'
             }).then(function (response) {
                 if (response) {
                     $scope.products = response.data;
@@ -44,7 +45,7 @@
         function getProduct(id) {
             $http({
                 method: 'get',
-                url: 'api/product/' + id
+                url: $scope.baseurl + 'api/product/' + id
             }).then(function (response) {
                 if (response && response.data) {
                     $scope.product = response.data;
@@ -57,7 +58,7 @@
         function getUser() {
             $http({
                 method: 'get',
-                url: 'api/user/' + $scope.user.Email + '/'
+                url: $scope.baseurl + 'api/user/' + $scope.user.Email + '/'
             }).then(function (response) {
                 if (response && response.data) {
                     $scope.user = response.data;
@@ -75,7 +76,7 @@
             };
             $http({
                 method: 'post',
-                url: 'api/order/create',
+                url: $scope.baseurl + 'api/order/create',
                 data: order
             }).then(function (response) {
                 if (response) {
@@ -91,8 +92,12 @@
         }
 
         function logout() {
-            $scope.display = $scope.pred;
             $scope.user = {};
+            $scope.isLoggedin = false;
+        }
+
+        function getBaseUrl() {
+            return $location.protocol() + '://' + $location.host() + ($location.port() !== 80 ? ':' + $location.port() : '') + '/';
         }
     }
 }) ();
